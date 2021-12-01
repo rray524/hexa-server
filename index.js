@@ -48,6 +48,13 @@ async function run() {
             const services = await cursor.toArray();
             res.json(services);
         })
+        // DELETE SERVICES
+        app.delete('/services/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await serviceCollection.deleteOne(query);
+            res.json(result);
+        })
         // team get and post api
         app.post('/members', async (req, res) => {
             const name = req.body.name;
