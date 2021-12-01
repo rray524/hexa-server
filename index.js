@@ -25,6 +25,7 @@ async function run() {
         const database = client.db("hexaWizards");
         const serviceCollection = database.collection("services");
         const teamCollection = database.collection("team");
+        const messageCollection = database.collection("messages");
         // service get & post api
         app.post('/services', async (req, res) => {
             const name = req.body.name;
@@ -85,6 +86,27 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const product = await teamCollection.findOne(query);
             res.json(product);
+        })
+        // message get & post api
+        app.post('/messages', async (req, res) => {
+            const name = req.body.name;
+            const email = req.body.email;
+            const subject = req.body.subject;
+            const message = req.body.message;
+            const messages = {
+                name,
+                email,
+                subject,
+                message
+            }
+            const result = await messageCollection.insertOne(messages);
+            res.json(result)
+        })
+
+        app.get('/messages', async (req, res) => {
+            const cursor = messageCollection.find({});
+            const messages = await cursor.toArray();
+            res.json(messages);
         })
 
     }
