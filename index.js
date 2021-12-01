@@ -87,6 +87,13 @@ async function run() {
             const product = await teamCollection.findOne(query);
             res.json(product);
         })
+        // DELETE MEMBERS
+        app.delete('/members/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await teamCollection.deleteOne(query);
+            res.json(result);
+        })
         // message get & post api
         app.post('/messages', async (req, res) => {
             const name = req.body.name;
